@@ -1,11 +1,6 @@
-mod api;
-mod context_containers;
-pub use crate::api::add_vessel_routes;
-
 use axum::{Router, routing::get};
+use fuel_monitoring_service::{add_vessel_routes, context_containers::InfraContextContainer};
 use tracing::info;
-
-use crate::context_containers::InfraContextContainer;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
