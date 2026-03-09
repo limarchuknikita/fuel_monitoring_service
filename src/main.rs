@@ -2,11 +2,10 @@ mod api;
 mod context_containers;
 pub use crate::api::add_vessel_routes;
 
-use axum::{routing::get, Router};
+use axum::{Router, routing::get};
 use tracing::info;
 
 use crate::context_containers::InfraContextContainer;
-
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {

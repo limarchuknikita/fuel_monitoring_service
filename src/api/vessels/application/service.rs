@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use mockall::automock;
 
-use crate::api::{VesselsRepository, vessels::{Vessel}};
+use crate::api::{VesselsRepository, vessels::Vessel};
 
 pub struct VesselsApplicationService {
     repository: Arc<dyn VesselsRepository + Send + Sync>,
@@ -35,18 +35,25 @@ mod tests {
     async fn test_get_vessels() {
         let mut repository_mock = MockVesselsRepository::new();
         let expected_result = vec![
-            Vessel { id: "1".to_string(), name: "Sandra".to_string(), fuel_level: 100.0 },
-            Vessel { id: "2".to_string(), name: "John".to_string(), fuel_level: 80.0 },
+            Vessel {
+                id: "1".to_string(),
+                name: "Sandra".to_string(),
+                fuel_level: 100.0,
+            },
+            Vessel {
+                id: "2".to_string(),
+                name: "John".to_string(),
+                fuel_level: 80.0,
+            },
         ];
         let expected_result_clone = expected_result.clone();
 
-        repository_mock.expect_get_all_vessels()
-            .returning(
-                move || {
-                    let result = expected_result_clone.clone();
-                    Box::pin(async move { result })
-                }
-            )
+        repository_mock
+            .expect_get_all_vessels()
+            .returning(move || {
+                let result = expected_result_clone.clone();
+                Box::pin(async move { result })
+            })
             .times(1);
 
         let service = VesselsApplicationService::new(Arc::new(repository_mock));
