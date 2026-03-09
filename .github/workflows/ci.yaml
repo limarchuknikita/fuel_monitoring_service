@@ -15,9 +15,15 @@ jobs:
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
-            - name: Show branch and commit
-              run: |
-                echo "Branch: ${{ github.ref }}"
-                echo "Commit: ${{ github.sha }}"
-            - name: Lint placeholder
-              run: echo "Linting code..."
+            - name: Install Rust
+              uses: dtolnay/rustup@v2
+
+            - name: Cache cargo
+              uses: Swatinem/rust-cache@v2
+            - name: Check formatting
+              run: cargo fmt --all -- --check
+            - name: Lint code
+              run: cargo clippy --all-targets --all-features -- -D warnings
+
+            - name: Run tests
+              run: cargo tests --all-features

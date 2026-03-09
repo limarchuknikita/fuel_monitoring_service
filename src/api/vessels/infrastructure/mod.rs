@@ -1,5 +1,5 @@
 mod models;
-mod repository;
+pub mod repository;
 
 pub use models::Vessel;
-pub use repository::VesselsRepository;
+pub use repository::{VesselsInfrastructureRepository, VesselsRepository};

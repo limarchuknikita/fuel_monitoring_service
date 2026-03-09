@@ -1,16 +1,21 @@
+use mockall::automock;
 use sea_orm::DatabaseConnection;
 
 use super::Vessel;
 
-pub struct VesselsRepository {
+pub struct VesselsInfrastructureRepository {
     connection: DatabaseConnection,
 }
-impl VesselsRepository {
+impl VesselsInfrastructureRepository {
     pub fn new(connection: DatabaseConnection) -> Self {
         Self { connection }
     }
 
-    pub async fn get_all_vessels(&self) -> Vec<Vessel> {
+    
+}
+#[async_trait::async_trait]
+impl VesselsRepository for VesselsInfrastructureRepository {
+    async fn get_all_vessels(&self) -> Vec<Vessel> {
         let _ = &self.connection;
         vec![
             Vessel {
@@ -25,4 +30,10 @@ impl VesselsRepository {
             },
         ]
     }
+}
+
+#[async_trait::async_trait]
+#[automock]
+pub trait VesselsRepository {
+    async fn get_all_vessels(&self) -> Vec<Vessel>;
 }
