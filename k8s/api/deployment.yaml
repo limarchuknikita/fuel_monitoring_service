@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fuel-monitoring-service
+  namespace: fuel-monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fuel-monitoring-service
+  template:
+    metadata:
+      labels:
+        app: fuel-monitoring-service
+    spec:
+      containers:
+        - name: fuel-monitoring-service
+          image: fuel-monitoring-service:local
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+            
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+
+          resources:
+            requests:
+              memory: "100Mi"
+              cpu: "128m"
+            limits:
+              memory: "500Mi"
+              cpu: "512m"
+
+          envFrom:
+            - configMapRef:
+                name: fuel-monitoring-config
+            - secretRef:
+                name: fuel-monitoring-secret
