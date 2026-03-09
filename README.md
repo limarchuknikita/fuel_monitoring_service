@@ -17,3 +17,9 @@ To access service you can use port forwarding:
 kubectl port-forward svc/fuel-monitoring-service 3000:3000
 ```
 Then you can access service at http://localhost:3000
+
+# Docker
+To build docker image run:
+```bash
+docker build -t fuel-monitoring-service:latest .
+```
