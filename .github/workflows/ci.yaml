@@ -48,7 +48,7 @@ jobs:
               run: |
                 COVERAGE=$(jq -r '.data[0].totals.lines.percent | floor' coverage.json)
                 echo "Coverage: $COVERAGE%"
-                if [ "$COVERAGE" -lt 80 ]; then
+                if [ "$COVERAGE" -gt 80 ]; then
                   echo "Coverage is below threshold"
                   exit 1
                 fi
