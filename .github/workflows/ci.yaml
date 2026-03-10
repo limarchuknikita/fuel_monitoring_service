@@ -40,11 +40,10 @@ jobs:
         needs: format-lint-unit-tests
         steps:
             - name: Download coverage report
-              run: |
-                pwd
-                ls -la
-                file coverage.json
-                echo "Downloading coverage report..."
+              uses: actions/download-artifact@v4
+              with:
+                name: coverage-report-${{ github.sha }}
+                path: coverage.json
             - name: Check coverage threshold
               run: |
                 COVERAGE=$(jq -r '.data[0].totals.lines.percent | floor' coverage.json)
