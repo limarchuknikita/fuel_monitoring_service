@@ -1,8 +1,6 @@
 name: CI
 
 on:
-    push:
-        branches: [master]
     pull_request:
         branches: [master]
     workflow_dispatch:
@@ -63,4 +61,4 @@ jobs:
             - name: Cache cargo
               uses: Swatinem/rust-cache@v2
             - name: Build project
-              run: docker build -t fuel_monitoring_service:${{ github.sha }} . -f ./docker/Dockerfile .
+              run: docker build -t fuel_monitoring_service:${{ github.sha }} . -f ./docker/Dockerfile
