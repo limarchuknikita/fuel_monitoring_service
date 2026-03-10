@@ -43,25 +43,24 @@ jobs:
               uses: actions/download-artifact@v4
               with:
                 name: coverage-report-${{ github.sha }}
-                path: coverage.json
+                path: coverage
             - name: Debug coverage file
               run: |
                 pwd
                 ls -la
-                file coverage.json || true
+                file coverage/coverage.json || true
 
                 echo "----- first 40 lines -----"
-                head -n 40 coverage.json || true
+                head -n 40 coverage/coverage.json || true
 
                 echo "----- jq keys -----"
-                jq 'keys' coverage.json || true
+                jq 'keys' coverage/coverage.json || true
 
                 echo "----- jq data[0] keys -----"
-                jq '.data[0] | keys' coverage.json || true
-
+                jq '.data[0] | keys' coverage/coverage.json || true
             - name: Check coverage threshold
               run: |
-                COVERAGE=$(jq -r '.data[0].totals.lines.percent | floor' coverage.json)
+                COVERAGE=$(jq -r '.data[0].totals.lines.percent | floor' coverage/coverage.json)
                 echo "Coverage: $COVERAGE%"
                 if [ "$COVERAGE" -lt 80 ]; then
                   echo "Coverage is below threshold"
