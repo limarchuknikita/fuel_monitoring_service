@@ -26,6 +26,8 @@ jobs:
               run: cargo fmt --all -- --check
             - name: Lint code
               run: cargo clippy --all-targets --all-features -- -D warnings
+            - name: Install cargo-llvm-cov
+              uses: taiki-e/install-action@cargo-llvm-cov
             - name: Run tests
               run: cargo llvm-cov --json --output-path coverage.json --lib
             - name : Upload coverage report
