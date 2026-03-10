@@ -46,13 +46,12 @@ jobs:
                 path: coverage.json
             - name: Check coverage threshold
               run: |
-                COVERAGE=$(jq '.data[0].totals.lines.percent | floor' coverage.json)
+                COVERAGE=$(jq -r '.data[0].totals.lines.percent | floor' coverage.json)
                 echo "Coverage: $COVERAGE%"
-                if [ "$COVERAGE" -lt 80 ]; then \
-                    echo "Coverage is below threshold!"; \
-                    exit 1; \
+                if [ "$COVERAGE" -lt 80 ]; then
+                  echo "Coverage is below threshold"
+                  exit 1
                 fi
-
                 
     integration-tests-vessels-1:
         runs-on: ubuntu-latest
