@@ -8,35 +8,35 @@ NC='\033[0m' # No Color
 SUCCESS_ICON="✓"
 FAIL_ICON="✗"
 
-echo "${YELLOW}Running pre-commit checks...${NC}"
-echo "${YELLOW}1. Running cargo fmt...${NC}"
+echo -e "${YELLOW}Running pre-commit checks...${NC}"
+echo -e "${YELLOW}1. Running cargo fmt...${NC}"
 cargo fmt -- --check
 
 if [ $? -ne 0 ]; then
-    echo "${RED}${FAIL_ICON} Code is not formatted. Please run 'cargo fmt' to format your code.${NC}"
+    echo -e "${RED}${FAIL_ICON} Code is not formatted. Please run 'cargo fmt' to format your code.${NC}"
     exit 1
 else
-    echo "${GREEN}${SUCCESS_ICON} Code is properly formatted.${NC}"
+    echo -e "${GREEN}${SUCCESS_ICON} Code is properly formatted.${NC}"
 fi
 
-echo "${YELLOW}2. Running cargo clippy...${NC}"
+echo -e "${YELLOW}2. Running cargo clippy...${NC}"
 cargo clippy --all-targets --all-features -- -D warnings
 
 if [ $? -ne 0 ]; then
-    echo "${RED}${FAIL_ICON} Clippy found issues. Please fix them before committing.${NC}"
+    echo -e "${RED}${FAIL_ICON} Clippy found issues. Please fix them before committing.${NC}"
     exit 1
 else
-    echo "${GREEN}${SUCCESS_ICON} Clippy checks passed.${NC}"
+    echo -e "${GREEN}${SUCCESS_ICON} Clippy checks passed.${NC}"
 fi
 
-echo "${YELLOW}3. Running check for CI pipeline...${NC}"
+echo -e "${YELLOW}3. Running check for CI pipeline...${NC}"
 actionlint
 
 if [ $? -ne 0 ]; then
-    echo "${RED}${FAIL_ICON} CI pipeline check failed. Please fix the issues before committing.${NC}"
+    echo -e "${RED}${FAIL_ICON} CI pipeline check failed. Please fix the issues before committing.${NC}"
     exit 1
 else
-    echo "${GREEN}${SUCCESS_ICON} CI pipeline check passed.${NC}"
+    echo -e "${GREEN}${SUCCESS_ICON} CI pipeline check passed.${NC}"
 fi
 
-echo "${GREEN}${SUCCESS_ICON} Pre-commit checks passed!${NC}"
+echo -e "${GREEN}${SUCCESS_ICON} Pre-commit checks passed!${NC}"
