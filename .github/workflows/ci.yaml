@@ -68,7 +68,7 @@ jobs:
             - name: Build project
               run: cargo build --release
             - name: Upload artifact
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                 name: fuel_monitoring_service_binary-${{ github.sha }}
                 path: target/release/fuel_monitoring_service
